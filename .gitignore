@@ -268,3 +268,5 @@ fabric.properties
 .cxx
 local.properties
 
+*.idea
+/**.idea
