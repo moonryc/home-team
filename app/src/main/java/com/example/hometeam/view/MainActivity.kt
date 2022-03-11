@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -13,10 +14,12 @@ import com.example.hometeam.viewmodels.MainViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hometeam.R
+import com.example.hometeam.models.Player
 import com.example.hometeam.models.PlayerAdapter
+import com.example.hometeam.models.PlayerList
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),PlayerAdapter.OnItemClickListener {
 
     private var viewManager = LinearLayoutManager(this)
     lateinit var binding: ActivityMainBinding
@@ -63,9 +66,14 @@ class MainActivity : AppCompatActivity() {
         viewModel.playerList.observe(this, Observer {
             Log.i("data", it.toString())
             println("Test")
-            recycler_view.adapter = PlayerAdapter(viewModel, it, this)
+            recycler_view.adapter = PlayerAdapter(viewModel, it, this,this)
         })
     }
 
-
+    override fun onItemClick(position: Int) {
+        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
+        val clickedItem= viewModel.playerList.value?.player?.get(position)
+        clickedItem?.strPlayer = "Clicked"
+        recycler_view.adapter?.notifyItemChanged(position)
+    }
 }

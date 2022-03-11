@@ -3,10 +3,12 @@ package com.example.hometeam.viewmodels
 import android.text.Editable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.hometeam.models.Player
 import com.example.hometeam.models.PlayerList
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
+import java.lang.Exception
 
 
 class MainViewModel : ViewModel() {
@@ -20,16 +22,11 @@ class MainViewModel : ViewModel() {
     init {
     }
 
-    /**
-     * Runs each time the user changes the text field, taking the searchedPlayer, paring to a string
-     * and formating any spaces into %20 for url queries
-     */
-    fun updateSearch(searchedPlayer: Editable?) {
 
-        search = searchedPlayer.toString().replace(" ", "%20")
-
-        if (search != "") {
-            val url = "https://www.thesportsdb.com/api/v1/json/50130162/searchplayers.php?p=$search"
+    fun fetchPlayers(){
+        val tempSearch = search.trim().replace(" ", "%20")
+        if (tempSearch !== "") {
+            val url = "https://www.thesportsdb.com/api/v1/json/50130162/searchplayers.php?p=$tempSearch"
             val request = Request.Builder().url(url).build()
             val client = OkHttpClient()
             client.newCall(request).enqueue(object : Callback {
@@ -38,9 +35,16 @@ class MainViewModel : ViewModel() {
                     val body = response.body?.string()
                     val gson = GsonBuilder().create()
 
-                    val playerListResponse = gson.fromJson(body, PlayerList::class.java)
+                    try{
+                        val playerListResponse = gson.fromJson(body, PlayerList::class.java)
+                        playerList.postValue(playerListResponse)
 
-                    playerList.postValue(playerListResponse)
+                    }catch(e:Exception){
+                        var arrayList:ArrayList<Player> = ArrayList(1)
+                        var tempPlayerList = PlayerList(arrayList)
+                        playerList.postValue(tempPlayerList)
+                    }
+
                 }
 
                 override fun onFailure(call: Call, e: IOException) {

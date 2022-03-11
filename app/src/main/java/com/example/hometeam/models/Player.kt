@@ -1,7 +1,7 @@
 package com.example.hometeam.models
 
 data class Player(
-    val strPlayer: String = "",
+    var strPlayer: String = "",
     val strTeam: String = "",
     val strNationality: String = "",
     val strTeam2: String = "",
