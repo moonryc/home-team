@@ -35,6 +35,7 @@
             android:completionThreshold="1"
             android:hint="Player's Name"
             android:layout_marginHorizontal="10dp"
+            android:visibility="visible"
             android:nestedScrollingEnabled="false"
             android:singleLine="true"
             android:text="@={mainViewModel.search}"
@@ -93,22 +94,20 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginEnd="8dp"
+                    android:outlineProvider="none"
                     android:src="@drawable/player_image"
-                    app:loadimage="@{mainViewModel.selectedPlayer.getImage}"
-                    />
+                    app:loadimage="@{mainViewModel.selectedPlayer.getImage}" />
 
                 <ImageView
                     android:id="@+id/selected_player_image_flag"
                     android:layout_width="100dp"
                     android:layout_height="50dp"
                     android:layout_alignTop="@+id/selected_name"
-                    android:layout_alignBottom="@+id/selected_name"
+                    android:layout_alignBottom="@+id/selected_player_image_view"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="89dp"
                     android:layout_marginTop="26dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="-52dp"
-                    android:layout_toEndOf="@+id/selected_name"
+                    android:layout_marginBottom="24dp"
                     android:src="@drawable/player_image"
                     app:loadflag="@{mainViewModel.selectedPlayer.strNationality}" />
 
