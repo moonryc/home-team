@@ -1,6 +1,5 @@
 package com.example.hometeam.viewmodels
 
-import android.text.Editable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.hometeam.models.Player
@@ -17,9 +16,11 @@ class MainViewModel : ViewModel() {
     val playerList = MutableLiveData<PlayerList>()
     //What the user is searching
     var search = ""
+    var selectedPlayer=MutableLiveData<Player>()
 
 
     init {
+        selectedPlayer.value = Player()
     }
 
 
