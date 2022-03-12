@@ -35,25 +35,26 @@
 
             <ImageView
                 android:id="@+id/selected_player_image_flag"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_alignTop="@+id/selected_name"
+                android:layout_width="191dp"
+                android:layout_height="80dp"
+                android:layout_alignTop="@+id/selected_player_image_view"
                 android:layout_alignBottom="@+id/selected_player_image_view"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="26dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@+id/selected_player_image_view"
                 android:scaleType="fitXY"
-                app:loadflag="@{mainViewModel.selectedPlayer.strNationality}"
-                android:src="@drawable/missing_flag" />
+                android:src="@drawable/missing_flag"
+                app:loadflag="@{mainViewModel.selectedPlayer.strNationality}" />
 
             <TextView
                 android:id="@+id/selected_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/selected_player_image_view"
-                android:text="@{mainViewModel.selectedPlayer.strPlayer,default=`name`}"
 
+                android:layout_below="@+id/selected_player_image_view"
+                android:layout_marginTop="21dp"
+                android:text="@{mainViewModel.selectedPlayer.strPlayer,default=`name`}"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -63,7 +64,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/selected_name"
-                android:layout_toEndOf="@id/selected_player_image_view"
                 android:text="@{mainViewModel.selectedPlayer.strTeam,default=`team`}" />
 
             <TextView
@@ -71,7 +71,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/selected_team"
-                android:layout_toEndOf="@id/selected_player_image_view"
                 android:text="@{mainViewModel.selectedPlayer.strPosition,default=`position`}" />
 
             <TextView
@@ -79,7 +78,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/selected_position"
-                android:layout_toEndOf="@id/selected_player_image_view"
                 android:text="@{mainViewModel.selectedPlayer.strSport,default=`sport`}" />
 
             <TextView
@@ -87,14 +85,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/selected_sport"
-                android:layout_toEndOf="@id/selected_player_image_view"
                 android:text="@{mainViewModel.selectedPlayer.strNationality,default=`Nationality`}" />
 
             <ScrollView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/selected_player_image_view"
-                android:layout_marginTop="50dp"
+                android:layout_below="@+id/selected_nationality"
+                android:layout_marginTop="20dp"
                 android:fillViewport="true"
                 android:scrollbars="vertical">
 
