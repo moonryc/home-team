@@ -34,4 +34,11 @@ data class Player(
         }
     }
 
+    fun getTeam():String{
+        if(strTeam !== null){
+            return strTeam.replace("_","")
+        }
+        return "N/A"
+    }
+
 }

@@ -64,28 +64,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/selected_name"
-                android:text="@{mainViewModel.selectedPlayer.strTeam,default=`team`}" />
+                android:text="@{`Team: `+mainViewModel.selectedPlayer.getTeam,default=`team`}" />
 
             <TextView
                 android:id="@+id/selected_position"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/selected_team"
-                android:text="@{mainViewModel.selectedPlayer.strPosition,default=`position`}" />
+                android:text="@{`Position: `+mainViewModel.selectedPlayer.strPosition,default=`position`}" />
 
             <TextView
                 android:id="@+id/selected_sport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/selected_position"
-                android:text="@{mainViewModel.selectedPlayer.strSport,default=`sport`}" />
+                android:text="@{`Sport: `+mainViewModel.selectedPlayer.strSport,default=`sport`}" />
 
             <TextView
                 android:id="@+id/selected_nationality"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/selected_sport"
-                android:text="@{mainViewModel.selectedPlayer.strNationality,default=`Nationality`}" />
+                android:text="@{`Nationality: `+mainViewModel.selectedPlayer.strNationality,default=`Nationality`}" />
 
             <ScrollView
                 android:layout_width="fill_parent"

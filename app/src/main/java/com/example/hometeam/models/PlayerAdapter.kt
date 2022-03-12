@@ -16,7 +16,6 @@ import com.example.hometeam.viewmodels.MainViewModel
 class PlayerAdapter(
     val viewModel: MainViewModel,
     private val playerList: PlayerList,
-    val context: Context,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder>() {
 
@@ -37,7 +36,7 @@ class PlayerAdapter(
 
 
         holder.name.text = currentItem.strPlayer
-        holder.team.text = "Team: ${currentItem.strTeam}"
+        holder.team.text = "Team: ${currentItem.getTeam()}"
         holder.position.text = "Position: ${currentItem.strPosition}"
         holder.sport.text = "Sport: ${currentItem.strSport}"
         holder.nationality.text = "Nationality: ${currentItem.strNationality}"
@@ -52,8 +51,10 @@ class PlayerAdapter(
 
     override fun getItemCount(): Int {
         if (playerList.player === null) {
+            viewModel.searchResultsText.value = "NO RESULTS FOUND"
             return 0
         }
+        viewModel.searchResultsText.value = ""
         return playerList.player.size
     }
 
