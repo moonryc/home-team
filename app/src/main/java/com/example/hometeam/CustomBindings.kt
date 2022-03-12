@@ -5,8 +5,8 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 
 @BindingAdapter("loadimage")
-fun bindingImage(imageView: ImageView, imageUri: String) {
-    if (imageUri !== "") {
+fun bindingImage(imageView: ImageView?, imageUri: String?) {
+    if (imageUri !== null && imageView !== null) {
         Glide.with(imageView.context)
             .load(imageUri).placeholder(R.drawable.player_image).error(R.drawable.player_image)
             .circleCrop()
@@ -15,8 +15,8 @@ fun bindingImage(imageView: ImageView, imageUri: String) {
 }
 
 @BindingAdapter("loadflag")
-fun bindingFlagImage(imageView: ImageView, country: String) {
-    if (country !== "") {
+fun bindingFlagImage(imageView: ImageView?, country: String?) {
+    if (country !==null && imageView !== null) {
         Glide.with(imageView.context)
             .load("https://countryflagsapi.com/png/${country}").error(R.drawable.missing_flag)
             .into(imageView)
