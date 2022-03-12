@@ -5,20 +5,20 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 
 @BindingAdapter("loadimage")
-fun bindingImage(imageView:ImageView,imageUri:String){
-    if(imageUri !==""){
+fun bindingImage(imageView: ImageView, imageUri: String) {
+    if (imageUri !== "") {
         Glide.with(imageView.context)
-            .load(imageUri)
+            .load(imageUri).placeholder(R.drawable.player_image).error(R.drawable.player_image)
+            .circleCrop()
             .into(imageView)
     }
-
 }
 
 @BindingAdapter("loadflag")
-fun bindingFlagImage(imageView:ImageView,country:String){
-    if(country !==""){
+fun bindingFlagImage(imageView: ImageView, country: String) {
+    if (country !== "") {
         Glide.with(imageView.context)
-            .load("https://countryflagsapi.com/png/${country}")
+            .load("https://countryflagsapi.com/png/${country}").error(R.drawable.missing_flag)
             .into(imageView)
     }
 

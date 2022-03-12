@@ -26,16 +26,14 @@ data class Player(
     ){
 
     fun getImage():String{
-        if(strThumb !== null){
-            return strThumb
-        }else if(strCutout !== null){
-            return strCutout
-        }
-        else if(strRender !== null){
-            return strRender
-        }
-        else{
-            return ""
+        return if(strThumb !== "" && strThumb !== null){
+            strThumb
+        }else if(strCutout !== "" && strCutout !== null){
+            strCutout
+        } else if(strRender !== "" && strRender !== null){
+            strRender
+        } else{
+            ""
         }
     }
 

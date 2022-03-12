@@ -24,6 +24,7 @@ class MainViewModel : ViewModel() {
     }
 
 
+
     fun fetchPlayers(){
         val tempSearch = search.trim().replace(" ", "%20")
         if (tempSearch !== "") {
@@ -45,6 +46,7 @@ class MainViewModel : ViewModel() {
                         var tempPlayerList = PlayerList(arrayList)
                         playerList.postValue(tempPlayerList)
                     }
+                    collectSearchData(tempSearch)
 
                 }
 
@@ -55,6 +57,25 @@ class MainViewModel : ViewModel() {
                 }
             })
         }
+    }
+
+
+    fun collectSearchData(playerSearch:String){
+        val url = "https://home-team-tracker.herokuapp.com/api/addplayer/${playerSearch}"
+        val request = Request.Builder().url(url).build()
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object : Callback {
+
+            override fun onResponse(call: Call, response: Response) {
+               println(response.code)
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                println("============================")
+                println("failed to execute request")
+                println("============================")
+            }
+        })
     }
 
 }
