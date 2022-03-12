@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,21 +14,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hometeam.R
 import com.example.hometeam.models.PlayerAdapter
-import androidx.cardview.widget.CardView
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 
 
 class MainActivity : AppCompatActivity(), PlayerAdapter.OnItemClickListener {
 
-    private var viewManager = LinearLayoutManager(this)
+
     lateinit var binding: ActivityMainBinding
+    lateinit var recyclerView: RecyclerView
     lateinit var viewModel: MainViewModel
-    lateinit var recycler_view: RecyclerView
 
     private lateinit var selectedPlayerView: View
     private lateinit var searchLayoutParent: View
 
+    private var viewManager = LinearLayoutManager(this)
     private var isSearchViewActive = false
 
 
@@ -45,45 +42,50 @@ class MainActivity : AppCompatActivity(), PlayerAdapter.OnItemClickListener {
         binding.lifecycleOwner = this
 
         //get Elements
-        recycler_view = findViewById(R.id.recycler_view)
+        recyclerView = findViewById(R.id.recycler_view)
         selectedPlayerView = findViewById(R.id.selected_player_layout_parent)
         searchLayoutParent = findViewById(R.id.searchLayoutParent)
 
         initialiseAdapter()
     }
 
-
+    /**
+     * Returns player to search view if in selected player view, otherwise treat back button as normal press
+     */
     override fun onBackPressed() {
-
         if(!isSearchViewActive){
             toggleView()
         }else{
             super.onBackPressed()
         }
-
     }
 
-
+    /**
+     * Create menu and initializes search
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.nav_menu,menu)
-
         val search = menu?.findItem(R.id.nav_search)
         val searchView:SearchView = search?.actionView as SearchView
-
         searchView.queryHint = "Athlete's name"
-
         searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+
+            /**
+             * Do nothing on text change
+             */
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
             }
 
+            /**
+             * On text submit toggle the view if need be fetch players on search,
+             * close the keyboard and search
+             */
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(query !== null){
-
                     if(!isSearchViewActive){
                         toggleView()
                     }
-
                     viewModel.fetchPlayers(query)
                     searchView.clearFocus()
                     searchView.onActionViewCollapsed()
@@ -91,35 +93,43 @@ class MainActivity : AppCompatActivity(), PlayerAdapter.OnItemClickListener {
                 return true
             }
         })
-
         return super.onCreateOptionsMenu(menu)
     }
 
 
+    /**
+     * initializes the adapter for the playerAdapter
+     */
     private fun initialiseAdapter() {
-        recycler_view.layoutManager = viewManager
-        recycler_view.setHasFixedSize(true)
+        recyclerView.layoutManager = viewManager
+        recyclerView.setHasFixedSize(true)
         observeData()
     }
 
-
-    fun observeData() {
+    /**
+     * observe mainViewModel playerlist for changes and update the recyclerView.adapter
+     */
+    private fun observeData() {
         viewModel.playerList.observe(this, Observer {
-            recycler_view.adapter = PlayerAdapter(viewModel, it, this, this)
+            recyclerView.adapter = PlayerAdapter(viewModel, it, this)
         })
     }
 
+    /**
+     * Updates viewModel.selectedPlayer to reflect the selected player and toggles the screen view
+     */
     override fun onItemClick(position: Int) {
-        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
         val clickedItem = viewModel.playerList.value?.player?.get(position)
         if (clickedItem != null) {
             viewModel.selectedPlayer.value = clickedItem
         }
-        recycler_view.adapter?.notifyItemChanged(position)
+        recyclerView.adapter?.notifyItemChanged(position)
         toggleView()
     }
 
-
+    /**
+     * Toggles between Search view and Selected player view
+     */
     private fun toggleView(){
         //Search View
         if(isSearchViewActive){
