@@ -1,6 +1,7 @@
 package com.example.hometeam.view
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hometeam.R
 import com.example.hometeam.models.PlayerAdapter
 import androidx.cardview.widget.CardView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 
 class MainActivity : AppCompatActivity(), PlayerAdapter.OnItemClickListener {
@@ -23,17 +26,16 @@ class MainActivity : AppCompatActivity(), PlayerAdapter.OnItemClickListener {
     lateinit var binding: ActivityMainBinding
     lateinit var viewModel: MainViewModel
     lateinit var recycler_view: RecyclerView
-    lateinit var backButton: Button
-    lateinit var searchButton: Button
-    lateinit var searchField: EditText
-    lateinit var selectedPlayerView:CardView
+
+    private lateinit var selectedPlayerView: View
+    private lateinit var searchLayoutParent: View
+
+    private var isSearchViewActive = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
@@ -42,20 +44,56 @@ class MainActivity : AppCompatActivity(), PlayerAdapter.OnItemClickListener {
         //to enable live data
         binding.lifecycleOwner = this
 
-
         //get Elements
         recycler_view = findViewById(R.id.recycler_view)
-        backButton = findViewById(R.id.backButton)
-        searchButton = findViewById(R.id.searchButton)
-        searchField = findViewById(R.id.searchField)
-        selectedPlayerView = findViewById(R.id.selected_player_layout)
-
+        selectedPlayerView = findViewById(R.id.selected_player_layout_parent)
+        searchLayoutParent = findViewById(R.id.searchLayoutParent)
 
         initialiseAdapter()
+    }
+
+
+    override fun onBackPressed() {
+
+        if(!isSearchViewActive){
+            toggleView()
+        }else{
+            super.onBackPressed()
+        }
 
     }
 
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.nav_menu,menu)
+
+        val search = menu?.findItem(R.id.nav_search)
+        val searchView:SearchView = search?.actionView as SearchView
+
+        searchView.queryHint = "Athlete's name"
+
+        searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(query !== null){
+
+                    if(!isSearchViewActive){
+                        toggleView()
+                    }
+
+                    viewModel.fetchPlayers(query)
+                    searchView.clearFocus()
+                    searchView.onActionViewCollapsed()
+                }
+                return true
+            }
+        })
+
+        return super.onCreateOptionsMenu(menu)
+    }
 
 
     private fun initialiseAdapter() {
@@ -81,25 +119,18 @@ class MainActivity : AppCompatActivity(), PlayerAdapter.OnItemClickListener {
         toggleView()
     }
 
-    fun backButton(view:View) {
-        toggleView()
-    }
 
     private fun toggleView(){
-        //List View
-        if(recycler_view.isVisible){
-            recycler_view.visibility = View.GONE
-            searchField.visibility = View.GONE
-            backButton.visibility = View.VISIBLE
+        //Search View
+        if(isSearchViewActive){
             selectedPlayerView.visibility = View.VISIBLE
-
+            searchLayoutParent.visibility = View.INVISIBLE
+            isSearchViewActive = false
         } else{
-            //Selected View
-            recycler_view.visibility = View.VISIBLE
-            searchField.visibility = View.VISIBLE
-            backButton.visibility = View.INVISIBLE
-            selectedPlayerView.visibility = View.GONE
+            //Selected player view
+            selectedPlayerView.visibility = View.INVISIBLE
+            searchLayoutParent.visibility = View.VISIBLE
+            isSearchViewActive = true
         }
     }
-
 }
