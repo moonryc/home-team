@@ -12,19 +12,19 @@ import java.lang.Exception
 
 class MainViewModel : ViewModel() {
 
-    //Used to display the data on screen observed by the MainActivity
     val playerList = MutableLiveData<PlayerList>()
-    //What the user is searching
-
     var selectedPlayer=MutableLiveData<Player>()
-
+    var searchResultsText = MutableLiveData<String>()
 
     init {
         selectedPlayer.value = Player()
+        searchResultsText.value = "SEARCH A PLAYER"
     }
 
 
-
+    /**
+     * Gets a list of players based off of the search query and updates the playerList
+     */
     fun fetchPlayers(search:String){
         val tempSearch = search.trim().replace(" ", "%20")
         if (tempSearch !== "") {
@@ -59,7 +59,10 @@ class MainViewModel : ViewModel() {
         }
     }
 
-
+    /**
+     * Sends search query to a backend MySQL to collect anylytics to see what player names/searches are most common
+     * visit https://home-team-tracker.herokuapp.com/ to see data
+     */
     fun collectSearchData(playerSearch:String){
         val url = "https://home-team-tracker.herokuapp.com/api/addplayer/${playerSearch}"
         val request = Request.Builder().url(url).build()
