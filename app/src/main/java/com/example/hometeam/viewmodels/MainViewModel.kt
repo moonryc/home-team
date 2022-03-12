@@ -15,7 +15,7 @@ class MainViewModel : ViewModel() {
     //Used to display the data on screen observed by the MainActivity
     val playerList = MutableLiveData<PlayerList>()
     //What the user is searching
-    var search = ""
+
     var selectedPlayer=MutableLiveData<Player>()
 
 
@@ -25,7 +25,7 @@ class MainViewModel : ViewModel() {
 
 
 
-    fun fetchPlayers(){
+    fun fetchPlayers(search:String){
         val tempSearch = search.trim().replace(" ", "%20")
         if (tempSearch !== "") {
             val url = "https://www.thesportsdb.com/api/v1/json/50130162/searchplayers.php?p=$tempSearch"
