@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.MainActivity"
     >
@@ -23,25 +24,46 @@
             android:id="@+id/searchLayoutParent"
             layout="@layout/search_layout"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            app:mainViewModel="@{mainViewModel}"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ad_view"
+            android:layout_marginBottom="0dp"
             android:visibility="visible"
-            />
+            app:mainViewModel="@{mainViewModel}" />
 
         <include
             android:id="@+id/selected_player_layout_parent"
             layout="@layout/selected_player_layout"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+
+            android:layout_alignBottom="@+id/searchLayoutParent"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="20dp"
+            android:layout_marginBottom="0dp"
             android:visibility="invisible"
             app:mainViewModel="@{mainViewModel}" />
 
-    </RelativeLayout>
 
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/ad_view"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintStart_toStartOf="parent" />
+
+
+    </RelativeLayout>
 </layout>

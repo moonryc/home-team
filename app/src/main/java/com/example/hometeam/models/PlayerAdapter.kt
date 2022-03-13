@@ -12,7 +12,7 @@ import com.example.hometeam.viewmodels.MainViewModel
 
 
 class PlayerAdapter(
-    val viewModel: MainViewModel,
+    private val viewModel: MainViewModel,
     private val playerList: PlayerList,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder>() {
@@ -30,22 +30,20 @@ class PlayerAdapter(
     }
 
     override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
-        val currentItem = playerList.player[position]
+        val currentItem = playerList.player?.get(position)
 
+        if (currentItem !== null) {
+            holder.name.text = currentItem?.strPlayer
+            holder.team.text = "Team: ${currentItem.getTeam()}"
+            holder.position.text = "Position: ${currentItem.strPosition}"
+            holder.sport.text = "Sport: ${currentItem.strSport}"
+            holder.nationality.text = "Nationality: ${currentItem.strNationality}"
 
-        holder.name.text = currentItem.strPlayer
-        holder.team.text = "Team: ${currentItem.getTeam()}"
-        holder.position.text = "Position: ${currentItem.strPosition}"
-        holder.sport.text = "Sport: ${currentItem.strSport}"
-        holder.nationality.text = "Nationality: ${currentItem.strNationality}"
-
-
-
-        Glide.with(holder.itemView.context).load(currentItem.getImage())
-            .placeholder(R.drawable.player_image)
-            .circleCrop()
-            .into(holder.imageView)
-
+            Glide.with(holder.itemView.context).load(currentItem.getImage())
+                .placeholder(R.drawable.player_image)
+                .circleCrop()
+                .into(holder.imageView)
+        }
     }
 
     override fun getItemCount(): Int {

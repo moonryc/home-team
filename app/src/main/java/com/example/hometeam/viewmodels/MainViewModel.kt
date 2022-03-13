@@ -15,10 +15,12 @@ class MainViewModel : ViewModel() {
     val playerList = MutableLiveData<PlayerList>()
     var selectedPlayer=MutableLiveData<Player>()
     var searchResultsText = MutableLiveData<String>()
+    var initialLoad = true
 
     init {
         selectedPlayer.value = Player()
         searchResultsText.value = "SEARCH A PLAYER"
+        fetchPlayers("Ryan")
     }
 
 
@@ -47,7 +49,6 @@ class MainViewModel : ViewModel() {
                         playerList.postValue(tempPlayerList)
                     }
                     collectSearchData(tempSearch)
-
                 }
 
                 override fun onFailure(call: Call, e: IOException) {
@@ -64,6 +65,10 @@ class MainViewModel : ViewModel() {
      * visit https://home-team-tracker.herokuapp.com/ to see data
      */
     fun collectSearchData(playerSearch:String){
+        if(initialLoad){
+            initialLoad= false
+            return
+        }
         val url = "https://home-team-tracker.herokuapp.com/api/addplayer/${playerSearch}"
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
