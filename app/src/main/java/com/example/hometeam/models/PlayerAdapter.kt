@@ -1,6 +1,5 @@
 package com.example.hometeam.models
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.hometeam.R
-import com.example.hometeam.view.MainActivity
 import com.example.hometeam.viewmodels.MainViewModel
 
 
@@ -43,7 +41,8 @@ class PlayerAdapter(
 
 
 
-        Glide.with(holder.itemView.context).load(currentItem.getImage()).placeholder(R.drawable.player_image)
+        Glide.with(holder.itemView.context).load(currentItem.getImage())
+            .placeholder(R.drawable.player_image)
             .circleCrop()
             .into(holder.imageView)
 
