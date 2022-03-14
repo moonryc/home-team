@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">HomeTeam</string>
+    <string name="playerPhoto">Player Photo</string>
+    <string name="line_1">Line 1</string>
+    <string name="line_2">Line 2</string>
+    <string name="line_3">Line 3</string>
+    <string name="line_4">Line 4</string>
+    <string name="line_5">Line 5</string>
+    <string name="playerFlag">Player flag</string>
 </resources>

@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,20 +14,19 @@ import com.example.hometeam.databinding.ActivityMainBinding
 import com.example.hometeam.models.PlayerAdapter
 import com.example.hometeam.viewmodels.MainViewModel
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
 
 class MainActivity : AppCompatActivity(), PlayerAdapter.OnItemClickListener {
 
 
-    lateinit var binding: ActivityMainBinding
-    lateinit var recyclerView: RecyclerView
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var recyclerView: RecyclerView
     lateinit var viewModel: MainViewModel
 
     private lateinit var selectedPlayerView: View
     private lateinit var searchLayoutParent: View
-    private lateinit var ad_view: AdView
+    private lateinit var adView: AdView
 
     private var viewManager = LinearLayoutManager(this)
     private var isSearchViewActive = true
@@ -49,11 +47,11 @@ class MainActivity : AppCompatActivity(), PlayerAdapter.OnItemClickListener {
         recyclerView = findViewById(R.id.recycler_view)
         selectedPlayerView = findViewById(R.id.selected_player_layout_parent)
         searchLayoutParent = findViewById(R.id.searchLayoutParent)
-        ad_view = findViewById(R.id.ad_view)
+        adView = findViewById(R.id.ad_view)
 
         //initialize ad
         val adRequest = AdRequest.Builder().build()
-        ad_view.loadAd(adRequest)
+        adView.loadAd(adRequest)
 
 
         initialiseAdapter()
@@ -117,10 +115,10 @@ class MainActivity : AppCompatActivity(), PlayerAdapter.OnItemClickListener {
     }
 
     /**
-     * observe mainViewModel playerlist for changes and update the recyclerView.adapter
+     * observe mainViewModel playerList for changes and update the recyclerView.adapter
      */
     private fun observeData() {
-        viewModel.playerList.observe(this, Observer {
+        viewModel.playerList.observe(this, {
             recyclerView.adapter = PlayerAdapter(viewModel, it, this)
         })
     }

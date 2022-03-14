@@ -1,5 +1,6 @@
 package com.example.hometeam.models
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,11 +30,12 @@ class PlayerAdapter(
         return PlayerViewHolder(itemView)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
         val currentItem = playerList.player?.get(position)
 
         if (currentItem !== null) {
-            holder.name.text = currentItem?.strPlayer
+            holder.name.text = currentItem.strPlayer
             holder.team.text = "Team: ${currentItem.getTeam()}"
             holder.position.text = "Position: ${currentItem.strPosition}"
             holder.sport.text = "Sport: ${currentItem.strSport}"

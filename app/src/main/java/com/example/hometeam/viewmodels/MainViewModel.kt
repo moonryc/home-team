@@ -12,10 +12,10 @@ import java.lang.Exception
 
 class MainViewModel : ViewModel() {
 
+    private var initialLoad = true
     val playerList = MutableLiveData<PlayerList>()
     var selectedPlayer=MutableLiveData<Player>()
     var searchResultsText = MutableLiveData<String>()
-    var initialLoad = true
 
     init {
         selectedPlayer.value = Player()
@@ -44,9 +44,7 @@ class MainViewModel : ViewModel() {
                         playerList.postValue(playerListResponse)
 
                     }catch(e:Exception){
-                        var arrayList:ArrayList<Player> = ArrayList(1)
-                        var tempPlayerList = PlayerList(arrayList)
-                        playerList.postValue(tempPlayerList)
+                        playerList.postValue(PlayerList(ArrayList(1)))
                     }
                     collectSearchData(tempSearch)
                 }

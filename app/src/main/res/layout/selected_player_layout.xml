@@ -31,6 +31,7 @@
                 android:layout_marginEnd="8dp"
                 android:outlineProvider="none"
                 android:src="@drawable/player_image"
+                android:contentDescription="@string/playerPhoto"
                 app:loadimage="@{mainViewModel.selectedPlayer.getImage}" />
 
             <ImageView
@@ -45,7 +46,9 @@
                 android:layout_toEndOf="@+id/selected_player_image_view"
                 android:scaleType="fitXY"
                 android:src="@drawable/missing_flag"
-                app:loadflag="@{mainViewModel.selectedPlayer.strNationality}" />
+                android:contentDescription="@string/playerFlag"
+                app:loadflag="@{mainViewModel.selectedPlayer.strNationality}"
+                 />
 
             <TextView
                 android:id="@+id/selected_name"
