@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), PlayerAdapter.OnItemClickListener {
     private lateinit var ad_view: AdView
 
     private var viewManager = LinearLayoutManager(this)
-    private var isSearchViewActive = false
+    private var isSearchViewActive = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
